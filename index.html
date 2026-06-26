@@ -806,6 +806,9 @@
                         <button onclick="saveSyncSettings()" class="bg-tosca-500 hover:bg-tosca-400 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition-all">
                             Simpan Pengaturan
                         </button>
+                        <button id="btn-pull-cloud" onclick="pullDataFromSheets()" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-cloud-arrow-down"></i> Tarik Data dari Cloud
+                        </button>
                         <button onclick="testSyncConnection()" class="bg-tosca-900 border border-tosca-800 hover:bg-tosca-800 text-tosca-300 font-bold py-2.5 px-5 rounded-xl text-xs transition-all">
                             Uji Koneksi Sinkronisasi
                         </button>
@@ -1728,6 +1731,9 @@
                 return;
             }
 
+            let changedProd = null;
+            let syncAction = "add_barang";
+
             if (originalId) {
                 // Update
                 if (code !== originalId && products.some(p => p.id === code)) {
@@ -1742,7 +1748,9 @@
                     if (cartIndex !== -1) {
                         cart[cartIndex].id = code;
                     }
-                    products[index] = { id: code, nama, harga, stok, kategori };
+                    products[index] = { id: code, nama, harga, stok, kategori, updatedAt: Date.now() };
+                    changedProd = products[index];
+                    syncAction = "edit_barang";
                 }
             } else {
                 // Insert
@@ -1750,7 +1758,9 @@
                     alert('Kode produk / Barcode ini sudah digunakan oleh produk lain!');
                     return;
                 }
-                products.push({ id: code, nama, harga, stok, kategori });
+                changedProd = { id: code, nama, harga, stok, kategori, updatedAt: Date.now() };
+                products.push(changedProd);
+                syncAction = "add_barang";
             }
 
             localStorage.setItem('pos_products', JSON.stringify(products));
@@ -1758,15 +1768,24 @@
             renderCatalog();
             renderProductTable();
             updateAllCounters();
+
+            if (changedProd && typeof syncProductToSheets === 'function') {
+                syncProductToSheets(changedProd, syncAction);
+            }
         }
 
         function deleteProduct(id) {
             if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                const targetProd = products.find(p => p.id === id);
                 products = products.filter(p => p.id !== id);
                 localStorage.setItem('pos_products', JSON.stringify(products));
                 renderCatalog();
                 renderProductTable();
                 updateAllCounters();
+
+                if (targetProd && typeof syncProductToSheets === 'function') {
+                    syncProductToSheets(targetProd, "delete_barang");
+                }
             }
         }
 
@@ -1872,26 +1891,39 @@
             const sisaUtang = parseFloat(document.getElementById('piutang-sisa-utang').value) || 0;
             const catatan = document.getElementById('piutang-note').value.trim();
 
+            let targetPiu = null;
+
             if (id) {
                 const index = piutang.findIndex(p => p.id === id);
                 if (index !== -1) {
                     piutang[index] = { ...piutang[index], namaPelanggan, totalBelanjaTempo, sisaUtang, catatan, updatedAt: Date.now() };
+                    targetPiu = piutang[index];
                 }
             } else {
                 const newId = `PT-${Date.now()}`;
-                piutang.push({ id: newId, namaPelanggan, totalBelanjaTempo, sisaUtang, catatan, riwayatCicilanJson: "[]", updatedAt: Date.now() });
+                targetPiu = { id: newId, namaPelanggan, totalBelanjaTempo, sisaUtang, catatan, riwayatCicilanJson: "[]", updatedAt: Date.now() };
+                piutang.push(targetPiu);
             }
 
             localStorage.setItem('pos_piutang', JSON.stringify(piutang));
             closePiutangModal();
             renderPiutangTable();
+
+            if (targetPiu && typeof syncPiutangToSheets === 'function') {
+                syncPiutangToSheets(targetPiu, "save_piutang");
+            }
         }
 
         function deletePiutang(id) {
             if (confirm('Apakah Anda yakin ingin menghapus catatan tempo ini?')) {
+                const targetPiu = piutang.find(p => p.id === id);
                 piutang = piutang.filter(p => p.id !== id);
                 localStorage.setItem('pos_piutang', JSON.stringify(piutang));
                 renderPiutangTable();
+
+                if (targetPiu && typeof syncPiutangToSheets === 'function') {
+                    syncPiutangToSheets(targetPiu, "delete_piutang");
+                }
             }
         }
 
@@ -2000,6 +2032,10 @@
             renderInstallmentHistoryList(p);
 
             alert(`Cicilan sebesar ${formatRupiah(payment)} berhasil dicatat!\nSisa utang baru: ${formatRupiah(p.sisaUtang)}`);
+
+            if (typeof syncPiutangToSheets === 'function') {
+                syncPiutangToSheets(p, "save_piutang");
+            }
         }
 
         function deleteInstallment(piutangId, installmentId) {
@@ -2040,6 +2076,10 @@
             renderInstallmentHistoryList(p);
 
             alert(`Cicilan sebesar ${formatRupiah(refundedAmount)} telah dihapus.\nSisa utang kembali menjadi: ${formatRupiah(p.sisaUtang)}`);
+
+            if (typeof syncPiutangToSheets === 'function') {
+                syncPiutangToSheets(p, "save_piutang");
+            }
         }
 
         // ==================== GOOGLE SHEETS INTEGRATION & SYNC ====================
@@ -2062,31 +2102,135 @@
                 return;
             }
 
-            alert('Melakukan uji koneksi sinkronisasi... (Ini mensimulasikan ping ke endpoint Apps Script)');
+            alert('Melakukan uji koneksi dengan mengambil data (GET) dari Google Sheets...');
             
-            // Simulation of fetch
-            setTimeout(() => {
-                alert('Koneksi Sukses! Endpoint web-app siap menerima pengiriman data penjualan.');
-            }, 1000);
+            fetch(`${url}?action=get_data`, {
+                method: 'GET',
+                redirect: 'follow'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && (data.products || data.transactions || data.piutang)) {
+                    alert('Koneksi Sukses! Berhasil membaca data dari Google Sheets.\n- Jumlah Produk: ' + (data.products ? data.products.length : 0) + '\n- Jumlah Transaksi: ' + (data.transactions ? data.transactions.length : 0) + '\n- Jumlah Piutang: ' + (data.piutang ? data.piutang.length : 0));
+                } else {
+                    alert('Koneksi berhasil tetapi format data tidak dikenal.');
+                }
+            })
+            .catch(err => {
+                console.error('Error during test connection:', err);
+                alert('Gagal terhubung dengan Google Sheets. Pastikan URL Apps Script benar, Anda sudah mendeploy sebagai "Web App" dan mengatur hak akses sebagai "Anyone/Siapa Saja".\n\nDetail error: ' + err.toString());
+            });
         }
 
-        function syncSingleTransactionToSheets(trx) {
+        function pullDataFromSheets() {
             const url = localStorage.getItem('pos_sheets_url');
-            if (!url) return;
+            if (!url) {
+                alert('Silakan konfigurasikan URL API Google Sheets Anda di menu integrasi terlebih dahulu!');
+                switchTab('sync-settings');
+                return;
+            }
 
-            // Simulate sheet injection
+            const btn = document.getElementById('btn-pull-cloud');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-1.5"></i> Menarik Data...`;
+            }
+
+            fetch(`${url}?action=get_data`, {
+                method: 'GET',
+                redirect: 'follow'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    if (data.products && data.products.length > 0) {
+                        products = data.products;
+                        localStorage.setItem('pos_products', JSON.stringify(products));
+                    }
+                    if (data.transactions && data.transactions.length > 0) {
+                        transactions = data.transactions;
+                        localStorage.setItem('pos_transactions', JSON.stringify(transactions));
+                    }
+                    if (data.piutang && data.piutang.length > 0) {
+                        piutang = data.piutang;
+                        localStorage.setItem('pos_piutang', JSON.stringify(piutang));
+                    }
+                    
+                    renderCatalog();
+                    renderProductTable();
+                    renderTransactionTable();
+                    renderPiutangTable();
+                    updateAllCounters();
+                    
+                    alert('Data dari Google Sheets berhasil ditarik dan disinkronkan ke local storage browser!');
+                } else {
+                    alert('Gagal mengurai data sinkronisasi dari Google Sheets.');
+                }
+            })
+            .catch(err => {
+                console.error('Error pulling data:', err);
+                alert('Gagal menarik data dari Google Sheets. Pastikan URL Apps Script benar dan status deployment adalah "Anyone".\nDetail error: ' + err.toString());
+            })
+            .finally(() => {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-down mr-1.5"></i> Tarik Data dari Cloud`;
+                }
+            });
+        }
+
+        function syncSingleTransactionToSheets(trx, callback = null) {
+            const url = localStorage.getItem('pos_sheets_url');
+            if (!url) {
+                if (callback) callback(false);
+                return;
+            }
+
             console.log(`Syncing ${trx.noTransaksi} to Google Sheets...`);
             
-            // Set sync success in LocalStorage after short mock delay
-            setTimeout(() => {
-                const target = transactions.find(t => t.id === trx.id);
-                if (target) {
-                    target.isSynced = 1;
-                    localStorage.setItem('pos_transactions', JSON.stringify(transactions));
-                    renderTransactionTable();
-                    updateAllCounters();
+            const payload = {
+                action: "checkout",
+                data: {
+                    id: trx.id,
+                    noTransaksi: trx.noTransaksi,
+                    tanggal: trx.tanggal,
+                    totalBayar: trx.totalBayar,
+                    nominalBayar: trx.nominalBayar,
+                    nominalKembalian: trx.nominalKembalian,
+                    itemsJson: trx.itemsJson,
+                    namaPelanggan: trx.namaPelanggan,
+                    metodePembayaran: trx.metodePembayaran
                 }
-            }, 1500);
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify(payload),
+                redirect: 'follow'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.success) {
+                    const target = transactions.find(t => t.id === trx.id);
+                    if (target) {
+                        target.isSynced = 1;
+                        localStorage.setItem('pos_transactions', JSON.stringify(transactions));
+                        renderTransactionTable();
+                        updateAllCounters();
+                    }
+                    if (callback) callback(true);
+                } else {
+                    console.error('Failed sync:', data ? data.message : 'Unknown error');
+                    if (callback) callback(false);
+                }
+            })
+            .catch(err => {
+                console.error('Error during sync:', err);
+                if (callback) callback(false);
+            });
         }
 
         function syncAllPendingTransactions() {
@@ -2106,19 +2250,85 @@
             alert(`Memulai sinkronisasi massal untuk ${pendings.length} transaksi pending ke Google Sheets...`);
             
             let count = 0;
+            let successCount = 0;
+
             pendings.forEach(trx => {
-                // Simulate REST post delay
-                setTimeout(() => {
-                    trx.isSynced = 1;
+                syncSingleTransactionToSheets(trx, (success) => {
                     count++;
+                    if (success) successCount++;
+                    
                     if (count === pendings.length) {
-                        localStorage.setItem('pos_transactions', JSON.stringify(transactions));
-                        renderTransactionTable();
-                        updateAllCounters();
-                        alert(`Berhasil menyinkronkan ${pendings.length} transaksi ke Google Sheets!`);
+                        alert(`Sinkronisasi selesai!\nBerhasil menyinkronkan ${successCount} dari ${pendings.length} transaksi ke Google Sheets.`);
                     }
-                }, count * 500);
+                });
             });
+        }
+
+        function syncProductToSheets(p, action) {
+            const url = localStorage.getItem('pos_sheets_url');
+            if (!url) return;
+
+            const payload = {
+                action: action, // "add_barang", "edit_barang", "delete_barang"
+                data: {
+                    id: p.id,
+                    nama: p.nama,
+                    stok: p.stok,
+                    harga: p.harga,
+                    kategori: p.kategori,
+                    updatedAt: p.updatedAt || Date.now()
+                }
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload),
+                redirect: 'follow'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.success) {
+                    console.log(`Product synced successfully: ${p.nama}`);
+                } else {
+                    console.error('Failed syncing product:', data ? data.message : '');
+                }
+            })
+            .catch(err => console.error('Error syncing product:', err));
+        }
+
+        function syncPiutangToSheets(piu, action) {
+            const url = localStorage.getItem('pos_sheets_url');
+            if (!url) return;
+
+            const payload = {
+                action: action, // "save_piutang", "delete_piutang"
+                data: {
+                    id: piu.id,
+                    namaPelanggan: piu.namaPelanggan,
+                    totalBelanjaTempo: piu.totalBelanjaTempo,
+                    sisaUtang: piu.sisaUtang,
+                    catatan: piu.catatan,
+                    riwayatCicilanJson: piu.riwayatCicilanJson || '[]',
+                    updatedAt: piu.updatedAt || Date.now()
+                }
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload),
+                redirect: 'follow'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.success) {
+                    console.log(`Piutang synced successfully: ${piu.namaPelanggan}`);
+                } else {
+                    console.error('Failed syncing piutang:', data ? data.message : '');
+                }
+            })
+            .catch(err => console.error('Error syncing piutang:', err));
         }
 
         // ==================== UTILS & STATE COUNTERS ====================
