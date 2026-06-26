@@ -479,7 +479,7 @@
                 </div>
 
                 <!-- Right Section: Checkout Cart Pane -->
-                <div id="cashier-cart-pane" class="w-full md:w-96 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-hidden shrink-0 hidden md:flex">
+                <div id="cashier-cart-pane" class="w-full md:w-96 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-y-auto md:overflow-hidden shrink-0 hidden md:flex">
                     <!-- Cart Title / Header -->
                     <div class="p-4 border-b border-tosca-800/30 flex items-center justify-between bg-tosca-950/80 shrink-0">
                         <div class="flex items-center gap-2">
@@ -491,8 +491,8 @@
                         </button>
                     </div>
                     
-                    <!-- Cart Item List (Scrollable) -->
-                    <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-3">
+                    <!-- Cart Item List (Scrollable on Desktop, expanded on Mobile) -->
+                    <div id="cart-items-container" class="flex-none md:flex-1 h-auto overflow-visible md:overflow-y-auto p-4 space-y-3">
                         <!-- Dynamically populated by JS -->
                     </div>
 
@@ -1142,13 +1142,13 @@
 
             if (subTab === 'catalog') {
                 catalogPane.className = "flex-1 flex flex-col overflow-hidden p-4 md:p-6 space-y-4";
-                cartPane.className = "w-full md:w-96 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-hidden shrink-0 hidden md:flex";
+                cartPane.className = "w-full md:w-96 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-y-auto md:overflow-hidden shrink-0 hidden md:flex";
                 
                 btnCatalog.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-extrabold transition-all bg-tosca-600 text-white shadow-sm flex items-center justify-center gap-1.5";
                 btnCart.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center gap-1.5";
             } else {
                 catalogPane.className = "hidden";
-                cartPane.className = "w-full flex-grow min-h-0 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-hidden";
+                cartPane.className = "w-full flex-grow min-h-0 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-y-auto md:overflow-hidden";
                 
                 btnCatalog.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center gap-1.5";
                 btnCart.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-extrabold transition-all bg-tosca-600 text-white shadow-sm flex items-center justify-center gap-1.5";
