@@ -46,23 +46,225 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0b1312; /* Darker dark mode with a touch of tosca */
-            color: #f1f5f9;
+            background-color: #f8fafc;
+            color: #1e293b;
         }
+        /* Overrides for Light Theme POS */
+        .bg-tosca-950, .bg-tosca-950\/70, .bg-tosca-950\/65, .bg-tosca-950\/80, .bg-tosca-950\/40, .bg-slate-850 {
+            background-color: #ffffff !important;
+        }
+        .bg-tosca-900\/50, .bg-tosca-900\/40, .bg-tosca-900\/30 {
+            background-color: #f1f5f9 !important;
+        }
+        .bg-emerald-950\/10 {
+            background-color: #f1f5f9 !important;
+        }
+        .border-tosca-800, .border-tosca-800\/50, .border-tosca-800\/30, .border-tosca-800\/40, .border-tosca-800\/20, .border-tosca-800\/10 {
+            border-color: #cbd5e1 !important;
+        }
+        .text-white {
+            color: #1e293b !important;
+        }
+        .text-tosca-100 {
+            color: #334155 !important;
+        }
+        .text-tosca-300 {
+            color: #0d9488 !important;
+        }
+        .text-tosca-400 {
+            color: #475569 !important;
+        }
+        .text-tosca-500 {
+            color: #14b8a6 !important;
+        }
+        
+        /* Buttons, tags & labels that must remain white-text */
+        button.text-white, .nav-btn, .m-nav-btn, .cat-pill, .bg-tosca-500, .bg-teal-600, .bg-amber-600, .bg-tosca-800, .bg-emerald-500, .bg-amber-500, .bg-rose-500 {
+            color: #ffffff !important;
+        }
+        .bg-tosca-500 *, .bg-teal-600 *, .bg-amber-600 *, .bg-tosca-800 *, .bg-emerald-500 *, .bg-amber-500 *, .bg-rose-500 * {
+            color: #ffffff !important;
+        }
+        
+        /* Inputs */
+        input, select, textarea {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            border-color: #cbd5e1 !important;
+        }
+        input::placeholder {
+            color: #94a3b8 !important;
+        }
+
+        /* Sidebar items styling */
+        .nav-btn {
+            color: #475569 !important;
+        }
+        .nav-btn:hover {
+            color: #0d9488 !important;
+            background-color: #f1f5f9 !important;
+        }
+        .nav-btn.bg-tosca-800, .m-nav-btn.bg-tosca-800 {
+            background-color: #0d9488 !important;
+            color: #ffffff !important;
+        }
+        .nav-btn.bg-tosca-800 *, .m-nav-btn.bg-tosca-800 * {
+            color: #ffffff !important;
+        }
+        
+        /* Catalog Items Specific */
+        #catalog-grid > div {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+        }
+        #catalog-grid > div:hover {
+            border-color: #14b8a6 !important;
+            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.12) !important;
+        }
+        #catalog-grid h3 {
+            color: #1e293b !important;
+        }
+        #catalog-grid span {
+            color: #0d9488 !important;
+        }
+        #catalog-grid .text-emerald-400 {
+            color: #059669 !important;
+        }
+        #catalog-grid .text-amber-400 {
+            color: #d97706 !important;
+        }
+        #catalog-grid .text-rose-500 {
+            color: #dc2626 !important;
+        }
+        
+        /* Cart List overrides */
+        #cart-items-container > div {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+        #cart-items-container h4 {
+            color: #1e293b !important;
+        }
+        #cart-items-container span {
+            color: #64748b !important;
+        }
+        #cart-items-container button {
+            color: #475569 !important;
+        }
+        #cart-items-container button:hover {
+            background-color: #e2e8f0 !important;
+        }
+        #cart-items-container button.bg-rose-950\/20 {
+            background-color: #fee2e2 !important;
+            color: #dc2626 !important;
+        }
+        #cart-items-container button.bg-rose-950\/20:hover {
+            background-color: #fecaca !important;
+        }
+        
+        /* Quick stats and dashboard widgets */
+        .bg-tosca-950\/50 {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+        .bg-tosca-500\/20 {
+            background-color: #ccfbf1 !important;
+            color: #0d9488 !important;
+        }
+        .bg-emerald-500\/20 {
+            background-color: #d1fae5 !important;
+            color: #059669 !important;
+        }
+        .bg-amber-500\/20 {
+            background-color: #fef3c7 !important;
+            color: #d97706 !important;
+        }
+        
+        /* Header style adjustments */
+        header {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+        }
+        header h1 {
+            color: #111827 !important;
+        }
+        header p {
+            color: #64748b !important;
+        }
+        header span#live-time {
+            color: #475569 !important;
+        }
+        header .bg-tosca-500\/25 {
+            background-color: #ccfbf1 !important;
+            color: #0f766e !important;
+        }
+        header .bg-tosca-900\/50 {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+        }
+        header .bg-tosca-900\/50 * {
+            color: #475569 !important;
+        }
+        
+        /* Tables */
+        table th {
+            background-color: #f1f5f9 !important;
+            color: #475569 !important;
+        }
+        table td {
+            color: #334155 !important;
+        }
+        table tr {
+            border-color: #e2e8f0 !important;
+        }
+        table tr:hover {
+            background-color: #f8fafc !important;
+        }
+        
+        /* Modals */
+        #receipt-modal > div, #product-modal > div, #piutang-modal > div {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+            color: #1e293b !important;
+        }
+        #receipt-modal h3, #product-modal h3, #piutang-modal h3 {
+            color: #1e293b !important;
+        }
+        #receipt-modal select, #product-modal select, #piutang-modal select {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+        }
+        #receipt-modal .bg-slate-800, #receipt-modal .bg-slate-900 {
+            background-color: #ffffff !important;
+            border-color: #e2e8f0 !important;
+        }
+        
+        /* Payment button active override */
+        .pay-method-active {
+            background-color: #0d9488 !important;
+            border-color: #0d9488 !important;
+            color: #ffffff !important;
+        }
+        .pay-method-active * {
+            color: #ffffff !important;
+        }
+        
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f1716;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #0f766e;
+            background: #cbd5e1;
             border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #14b8a6;
+            background: #94a3b8;
         }
         /* Printable receipt styling */
         @media print {
@@ -181,8 +383,18 @@
             <!-- TAB 1: CASHIER (Default) -->
             <div id="tab-cashier" class="flex-1 flex flex-col md:flex-row overflow-hidden">
                 
+                <!-- Mobile Sub-tab Navigation for Cashier (Only visible on mobile) -->
+                <div class="md:hidden flex p-2 bg-white border-b border-slate-200 shrink-0 gap-2">
+                    <button type="button" onclick="switchCashierSubTab('catalog')" id="btn-cashier-catalog" class="flex-1 py-2 px-3 text-center rounded-xl text-xs font-extrabold transition-all bg-tosca-600 text-white shadow-sm flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-list-check"></i> Daftar Produk
+                    </button>
+                    <button type="button" onclick="switchCashierSubTab('cart')" id="btn-cashier-cart" class="flex-1 py-2 px-3 text-center rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-shopping-cart"></i> Keranjang (<span id="mobile-cart-badge" class="font-bold">0</span>)
+                    </button>
+                </div>
+
                 <!-- Left Section: Catalog & Categories -->
-                <div class="flex-1 flex flex-col overflow-hidden p-4 md:p-6 space-y-4">
+                <div id="cashier-catalog-pane" class="flex-1 flex flex-col overflow-hidden p-4 md:p-6 space-y-4">
                     
                     <!-- Search & Filter Controls -->
                     <div class="flex flex-col sm:flex-row gap-3">
@@ -229,7 +441,7 @@
                 </div>
 
                 <!-- Right Section: Checkout Cart Pane -->
-                <div class="w-full md:w-96 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-hidden shrink-0">
+                <div id="cashier-cart-pane" class="w-full md:w-96 bg-tosca-950/65 border-t md:border-t-0 md:border-l border-tosca-800/30 flex flex-col overflow-hidden shrink-0 hidden md:flex">
                     <!-- Cart Title / Header -->
                     <div class="p-4 border-b border-tosca-800/30 flex items-center justify-between bg-tosca-950/80 shrink-0">
                         <div class="flex items-center gap-2">
@@ -270,11 +482,17 @@
                         <div>
                             <span class="block text-[10px] font-bold text-tosca-400 uppercase tracking-wider mb-1.5">Metode Pembayaran</span>
                             <div class="grid grid-cols-2 gap-2">
-                                <button onclick="setPaymentMethod('CASH')" id="btn-pay-cash" class="py-2 px-3 border-2 border-tosca-500 bg-tosca-900/30 text-white rounded-lg text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all">
+                                <button onclick="setPaymentMethod('CASH')" id="btn-pay-cash" class="py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all pay-method-active">
                                     <i class="fa-solid fa-money-bill-wave"></i> TUNAI
                                 </button>
-                                <button onclick="setPaymentMethod('QRIS')" id="btn-pay-qris" class="py-2 px-3 border border-tosca-800/50 bg-transparent text-tosca-400 rounded-lg text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all">
+                                <button onclick="setPaymentMethod('QRIS')" id="btn-pay-qris" class="py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all">
                                     <i class="fa-solid fa-qrcode"></i> QRIS
+                                </button>
+                                <button onclick="setPaymentMethod('SPLIT')" id="btn-pay-split" class="py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-layer-group"></i> SPLITPAY
+                                </button>
+                                <button onclick="setPaymentMethod('DEBT')" id="btn-pay-debt" class="py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-handshake"></i> HUTANG
                                 </button>
                             </div>
                         </div>
@@ -299,6 +517,35 @@
                                 <button onclick="quickCash(50000)" class="px-2 py-1 bg-tosca-900/30 border border-tosca-800/30 text-[10px] text-tosca-300 font-mono rounded hover:bg-tosca-800/50 hover:text-white">50K</button>
                                 <button onclick="quickCash(100000)" class="px-2 py-1 bg-tosca-900/30 border border-tosca-800/30 text-[10px] text-tosca-300 font-mono rounded hover:bg-tosca-800/50 hover:text-white">100K</button>
                                 <button onclick="quickCash('PAS')" class="px-2 py-1 bg-tosca-900/30 border border-tosca-800/30 text-[10px] text-emerald-400 font-bold rounded hover:bg-tosca-800/50 hover:text-white">Uang Pas</button>
+                            </div>
+                        </div>
+
+                        <!-- Split Payment Inputs (Only shown for SPLIT) -->
+                        <div id="split-payment-fields" class="space-y-2 hidden">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-tosca-400 uppercase tracking-wider mb-1">Bayar Tunai</label>
+                                    <input type="number" id="split-cash-received" oninput="calculateChange()" placeholder="Rp Tunai" class="w-full bg-tosca-900/40 border border-tosca-800/30 rounded-lg px-3 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-tosca-500">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-tosca-400 uppercase tracking-wider mb-1">Bayar QRIS / Non-Tunai</label>
+                                    <input type="number" id="split-qris-received" oninput="calculateChange()" placeholder="Rp QRIS" class="w-full bg-tosca-900/40 border border-tosca-800/30 rounded-lg px-3 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-tosca-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-tosca-400 uppercase tracking-wider mb-1">Status Pembayaran</label>
+                                <div id="split-change-amount" class="w-full bg-tosca-900/20 border border-tosca-800/20 text-amber-500 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate">Kekurangan: Rp 0</div>
+                            </div>
+                        </div>
+
+                        <!-- Debt (Hutang) Inputs (Only shown for DEBT) -->
+                        <div id="debt-payment-fields" class="space-y-2 hidden">
+                            <div class="p-2.5 bg-rose-50 border border-rose-100 rounded-lg text-[11px] text-rose-700 leading-relaxed font-semibold">
+                                <i class="fa-solid fa-triangle-exclamation text-rose-500 mr-1"></i> Nama Pelanggan wajib diisi di atas untuk transaksi Tempo / Hutang.
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-tosca-400 uppercase tracking-wider mb-1">Catatan Hutang (Opsional)</label>
+                                <input type="text" id="debt-payment-note" placeholder="cth: Bayar tanggal 5 bulan depan" class="w-full bg-tosca-900/40 border border-tosca-800/30 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-tosca-500">
                             </div>
                         </div>
 
@@ -762,6 +1009,32 @@
             }
         }
 
+        // CASHIER SUB-TAB SWITCHER (MOBILE ONLY)
+        let currentCashierSubTab = 'catalog';
+        function switchCashierSubTab(subTab) {
+            currentCashierSubTab = subTab;
+            const catalogPane = document.getElementById('cashier-catalog-pane');
+            const cartPane = document.getElementById('cashier-cart-pane');
+            const btnCatalog = document.getElementById('btn-cashier-catalog');
+            const btnCart = document.getElementById('btn-cashier-cart');
+
+            if (subTab === 'catalog') {
+                catalogPane.classList.remove('hidden');
+                cartPane.classList.add('hidden');
+                cartPane.classList.add('md:flex');
+                
+                btnCatalog.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-extrabold transition-all bg-tosca-600 text-white shadow-sm flex items-center justify-center gap-1.5";
+                btnCart.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center gap-1.5";
+            } else {
+                catalogPane.classList.add('hidden');
+                cartPane.classList.remove('hidden');
+                cartPane.classList.add('flex-grow');
+                
+                btnCatalog.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center gap-1.5";
+                btnCart.className = "flex-1 py-2 px-3 text-center rounded-xl text-xs font-extrabold transition-all bg-tosca-600 text-white shadow-sm flex items-center justify-center gap-1.5";
+            }
+        }
+
         // ==================== CASHIER CATALOG LOGIC ====================
 
         function renderCatalog() {
@@ -914,6 +1187,9 @@
                 document.getElementById('cart-total-price').innerText = 'Rp 0';
                 document.getElementById('cash-change-amount').innerText = 'Rp 0';
                 document.getElementById('cash-nominal-received').value = '';
+                
+                const mobileBadge = document.getElementById('mobile-cart-badge');
+                if (mobileBadge) mobileBadge.innerText = '0';
                 return;
             }
 
@@ -949,6 +1225,9 @@
             document.getElementById('cart-total-qty').innerText = `${totalQty} pcs`;
             document.getElementById('cart-total-price').innerText = formatRupiah(totalPrice);
             
+            const mobileBadge = document.getElementById('mobile-cart-badge');
+            if (mobileBadge) mobileBadge.innerText = totalQty;
+            
             calculateChange();
         }
 
@@ -958,17 +1237,37 @@
             
             const btnCash = document.getElementById('btn-pay-cash');
             const btnQris = document.getElementById('btn-pay-qris');
-            const fieldsCash = document.getElementById('cash-payment-fields');
+            const btnSplit = document.getElementById('btn-pay-split');
+            const btnDebt = document.getElementById('btn-pay-debt');
 
+            const fieldsCash = document.getElementById('cash-payment-fields');
+            const fieldsSplit = document.getElementById('split-payment-fields');
+            const fieldsDebt = document.getElementById('debt-payment-fields');
+
+            // Set inactive styles
+            [btnCash, btnQris, btnSplit, btnDebt].forEach(btn => {
+                if (btn) btn.className = "py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all";
+            });
+
+            // Hide all payment sub-fields
+            if (fieldsCash) fieldsCash.classList.add('hidden');
+            if (fieldsSplit) fieldsSplit.classList.add('hidden');
+            if (fieldsDebt) fieldsDebt.classList.add('hidden');
+
+            // Apply active styles and show corresponding inputs
             if (method === 'CASH') {
-                btnCash.className = "py-2 px-3 border-2 border-tosca-500 bg-tosca-900/30 text-white rounded-lg text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all";
-                btnQris.className = "py-2 px-3 border border-tosca-800/50 bg-transparent text-tosca-400 rounded-lg text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all";
-                fieldsCash.classList.remove('hidden');
-            } else {
-                btnCash.className = "py-2 px-3 border border-tosca-800/50 bg-transparent text-tosca-400 rounded-lg text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all";
-                btnQris.className = "py-2 px-3 border-2 border-tosca-500 bg-tosca-900/30 text-white rounded-lg text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all";
-                fieldsCash.classList.add('hidden');
+                if (btnCash) btnCash.className = "py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all pay-method-active";
+                if (fieldsCash) fieldsCash.classList.remove('hidden');
+            } else if (method === 'QRIS') {
+                if (btnQris) btnQris.className = "py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all pay-method-active";
+            } else if (method === 'SPLIT') {
+                if (btnSplit) btnSplit.className = "py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all pay-method-active";
+                if (fieldsSplit) fieldsSplit.classList.remove('hidden');
+            } else if (method === 'DEBT') {
+                if (btnDebt) btnDebt.className = "py-2 px-2.5 border border-slate-300 bg-transparent text-slate-700 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all pay-method-active";
+                if (fieldsDebt) fieldsDebt.classList.remove('hidden');
             }
+            
             calculateChange();
         }
 
@@ -982,17 +1281,33 @@
                 return;
             }
 
-            const receivedInput = document.getElementById('cash-nominal-received');
-            const received = parseFloat(receivedInput.value) || 0;
-            const change = received - total;
+            if (selectedPaymentMethod === 'CASH') {
+                const receivedInput = document.getElementById('cash-nominal-received');
+                const received = parseFloat(receivedInput.value) || 0;
+                const change = received - total;
 
-            const changeEl = document.getElementById('cash-change-amount');
-            if (change < 0) {
-                changeEl.innerText = 'Uang Kurang';
-                changeEl.className = "w-full bg-rose-950/20 border border-rose-900/20 text-rose-400 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate";
-            } else {
-                changeEl.innerText = formatRupiah(change);
-                changeEl.className = "w-full bg-emerald-950/20 border border-emerald-900/20 text-emerald-400 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate";
+                const changeEl = document.getElementById('cash-change-amount');
+                if (change < 0) {
+                    changeEl.innerText = 'Uang Kurang';
+                    changeEl.className = "w-full bg-rose-950/20 border border-rose-900/20 text-rose-400 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate";
+                } else {
+                    changeEl.innerText = formatRupiah(change);
+                    changeEl.className = "w-full bg-emerald-950/20 border border-emerald-900/20 text-emerald-400 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate";
+                }
+            } else if (selectedPaymentMethod === 'SPLIT') {
+                const splitCashVal = parseFloat(document.getElementById('split-cash-received').value) || 0;
+                const splitQrisVal = parseFloat(document.getElementById('split-qris-received').value) || 0;
+                const totalPaid = splitCashVal + splitQrisVal;
+                const diff = totalPaid - total;
+
+                const changeEl = document.getElementById('split-change-amount');
+                if (diff < 0) {
+                    changeEl.innerText = `Kurang: ${formatRupiah(Math.abs(diff))}`;
+                    changeEl.className = "w-full bg-amber-950/20 border border-amber-900/20 text-amber-500 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate";
+                } else {
+                    changeEl.innerText = `Lunas! Kembalian Tunai: ${formatRupiah(diff)}`;
+                    changeEl.className = "w-full bg-emerald-950/20 border border-emerald-900/20 text-emerald-400 font-mono font-bold text-xs py-1.5 px-3 rounded-lg truncate";
+                }
             }
         }
 
@@ -1019,6 +1334,11 @@
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             let received = total;
             let change = 0;
+            let splitCash = 0;
+            let splitQris = 0;
+            let debtNote = "";
+
+            const namaPelanggan = document.getElementById('cart-customer').value.trim() || 'Umum';
 
             if (selectedPaymentMethod === 'CASH') {
                 const receivedInput = document.getElementById('cash-nominal-received');
@@ -1029,6 +1349,27 @@
                     return;
                 }
                 change = received - total;
+            } else if (selectedPaymentMethod === 'SPLIT') {
+                const splitCashVal = parseFloat(document.getElementById('split-cash-received').value) || 0;
+                const splitQrisVal = parseFloat(document.getElementById('split-qris-received').value) || 0;
+                const totalPaid = splitCashVal + splitQrisVal;
+
+                if (totalPaid < total) {
+                    alert('Total pembayaran splitpay masih kurang!');
+                    return;
+                }
+                received = totalPaid;
+                change = totalPaid - total;
+                splitCash = splitCashVal;
+                splitQris = splitQrisVal;
+            } else if (selectedPaymentMethod === 'DEBT') {
+                if (namaPelanggan === 'Umum' || namaPelanggan === '') {
+                    alert('Nama Pelanggan wajib diisi untuk transaksi Tempo / Hutang!');
+                    return;
+                }
+                received = 0;
+                change = 0;
+                debtNote = document.getElementById('debt-payment-note').value.trim() || 'Tempo Transaksi POS';
             }
 
             // Deduct product stock locally
@@ -1042,7 +1383,21 @@
             const timestamp = Date.now();
             const dateStr = new Date(timestamp).toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }) + ' ' + new Date(timestamp).toTimeString().split(' ')[0];
             const noTransaksi = `TRX-${timestamp}`;
-            const namaPelanggan = document.getElementById('cart-customer').value.trim() || 'Umum';
+
+            // Save Debt/Tempo to piutang list if DEBT
+            if (selectedPaymentMethod === 'DEBT') {
+                const newPiutangId = `PTG-${timestamp}`;
+                piutang.unshift({
+                    id: newPiutangId,
+                    namaPelanggan: namaPelanggan,
+                    totalBelanjaTempo: total,
+                    sisaUtang: total,
+                    catatan: debtNote,
+                    riwayatCicilanJson: "[]",
+                    updatedAt: timestamp
+                });
+                localStorage.setItem('pos_piutang', JSON.stringify(piutang));
+            }
 
             const newTrx = {
                 id: noTransaksi,
@@ -1054,7 +1409,10 @@
                 itemsJson: JSON.stringify(cart),
                 namaPelanggan: namaPelanggan,
                 isSynced: 0,
-                metodePembayaran: selectedPaymentMethod
+                metodePembayaran: selectedPaymentMethod,
+                splitCash: splitCash,
+                splitQris: splitQris,
+                catatanHutang: debtNote
             };
 
             // Save transaction locally
@@ -1075,7 +1433,13 @@
             renderCatalog();
             renderProductTable();
             renderTransactionTable();
+            renderPiutangTable();
             updateAllCounters();
+
+            // Reset inputs
+            document.getElementById('split-cash-received').value = '';
+            document.getElementById('split-qris-received').value = '';
+            document.getElementById('debt-payment-note').value = '';
         }
 
         function generateReceiptMarkup(trx, items, dateString) {
@@ -1087,6 +1451,27 @@
                     <span>${it.quantity} x ${formatRupiah(it.price)}</span>
                 </div>`;
             });
+
+            let detailMetodeText = trx.metodePembayaran.toUpperCase();
+            let detailBayarRow = "";
+            let shareMethodText = trx.metodePembayaran.toUpperCase();
+
+            if (trx.metodePembayaran === 'SPLIT') {
+                detailMetodeText = "SPLITPAY";
+                detailBayarRow = `
+                    <div class="flex justify-between text-[9px] pl-2 text-slate-500"><span>- Tunai:</span><span>${formatRupiah(trx.splitCash)}</span></div>
+                    <div class="flex justify-between text-[9px] pl-2 text-slate-500"><span>- QRIS:</span><span>${formatRupiah(trx.splitQris)}</span></div>
+                `;
+                shareMethodText = `SPLITPAY (Tunai: ${formatRupiah(trx.splitCash)} | QRIS: ${formatRupiah(trx.splitQris)})`;
+            } else if (trx.metodePembayaran === 'DEBT') {
+                detailMetodeText = "TEMPO / HUTANG";
+                if (trx.catatanHutang) {
+                    detailBayarRow = `
+                        <div class="flex justify-between text-[9px] pl-2 text-rose-500 font-semibold"><span>Catatan:</span><span>${trx.catatanHutang}</span></div>
+                    `;
+                }
+                shareMethodText = `TEMPO / HUTANG (${trx.catatanHutang || 'Belum Lunas'})`;
+            }
 
             const html = `
                 <div class="text-center font-bold text-xs uppercase mb-3 border-b border-dashed border-slate-400 pb-2">
@@ -1104,7 +1489,8 @@
                 </div>
                 <div class="space-y-0.5 text-[10px] border-b border-dashed border-slate-400 pb-2 mb-2">
                     <div class="flex justify-between font-bold"><span>TOTAL BELANJA:</span><span>${formatRupiah(trx.totalBayar)}</span></div>
-                    <div class="flex justify-between"><span>Metode Bayar:</span><span class="font-bold uppercase">${trx.metodePembayaran}</span></div>
+                    <div class="flex justify-between"><span>Metode Bayar:</span><span class="font-bold uppercase">${detailMetodeText}</span></div>
+                    ${detailBayarRow}
                     <div class="flex justify-between"><span>Bayar / Diterima:</span><span>${formatRupiah(trx.nominalBayar)}</span></div>
                     <div class="flex justify-between"><span>Kembalian:</span><span class="font-bold">${formatRupiah(trx.nominalKembalian)}</span></div>
                 </div>
@@ -1119,7 +1505,7 @@
             // Generate optimized plain text receipt for WhatsApp sharing
             currentReceiptTrxText = `*WARUNG MAMA INTAN*\nSistem Penjualan Mandiri\n------------------------------\n*No TRX:* ${trx.noTransaksi}\n*Tanggal:* ${dateString}\n*Pelanggan:* ${trx.namaPelanggan}\n*Kasir:* Mama Intan\n------------------------------\n` + 
                 items.map(it => `*${it.nama}*\n  ${it.quantity} x ${formatRupiah(it.price)} = ${formatRupiah(it.quantity * it.price)}`).join('\n') +
-                `\n------------------------------\n*TOTAL BELANJA:* ${formatRupiah(trx.totalBayar)}\n*Metode Bayar:* ${trx.metodePembayaran.toUpperCase()}\n*Uang Tunai:* ${formatRupiah(trx.nominalBayar)}\n*Kembalian:* ${formatRupiah(trx.nominalKembalian)}\n------------------------------\n*TERIMA KASIH*\nAtas Kunjungannya!\n_POS Warung Mama Intan Web_`;
+                `\n------------------------------\n*TOTAL BELANJA:* ${formatRupiah(trx.totalBayar)}\n*Metode Bayar:* ${shareMethodText}\n*Uang Tunai:* ${formatRupiah(trx.nominalBayar)}\n*Kembalian:* ${formatRupiah(trx.nominalKembalian)}\n------------------------------\n*TERIMA KASIH*\nAtas Kunjungannya!\n_POS Warung Mama Intan Web_`;
 
             // Display Receipt Modal
             document.getElementById('receipt-modal').classList.remove('hidden');
