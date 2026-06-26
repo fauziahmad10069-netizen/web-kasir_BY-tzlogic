@@ -306,21 +306,31 @@
         }
         /* Printable receipt styling */
         @media print {
-            body * {
-                visibility: hidden;
+            html, body {
+                height: auto !important;
+                overflow: visible !important;
+                background: white !important;
+                color: black !important;
             }
-            #print-receipt-area, #print-receipt-area * {
-                visibility: visible;
+            body > *:not(#print-receipt-area) {
+                display: none !important;
             }
             #print-receipt-area {
+                display: block !important;
+                visibility: visible !important;
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 80mm;
-                background: white;
-                color: black;
+                width: 100% !important;
+                max-width: 80mm;
+                background: white !important;
+                color: black !important;
                 padding: 10px;
                 font-family: 'JetBrains Mono', monospace;
+            }
+            #print-receipt-area * {
+                visibility: visible !important;
+                color: black !important;
             }
         }
     </style>
@@ -848,7 +858,7 @@
                 <button onclick="shareWhatsAppReceipt()" class="flex-1 bg-[#25D366] hover:bg-[#20ba56] text-white font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 shadow-md shadow-emerald-950/20">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Kirim WA
                 </button>
-                <button onclick="window.print()" class="bg-tosca-500 hover:bg-tosca-400 text-white font-bold py-2.5 px-3.5 rounded-xl text-xs transition-all">
+                <button onclick="printReceipt()" class="bg-tosca-500 hover:bg-tosca-400 text-white font-bold py-2.5 px-3.5 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-print"></i> Print
                 </button>
             </div>
@@ -1642,6 +1652,15 @@
             const encodedText = encodeURIComponent(currentReceiptTrxText);
             const url = `https://api.whatsapp.com/send?text=${encodedText}`;
             window.open(url, '_blank');
+        }
+
+        function printReceipt() {
+            const printArea = document.getElementById('print-receipt-area');
+            const receiptContent = document.getElementById('receipt-html-content').innerHTML;
+            if (receiptContent) {
+                printArea.innerHTML = receiptContent;
+            }
+            window.print();
         }
 
         // ==================== PRODUCT TABLE CRUD ====================
